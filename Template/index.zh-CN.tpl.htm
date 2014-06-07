@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ns-template Examples</title>
+<style>
+body{
+    font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; color:#111; width:1000px; margin-left:30px;
+}
+code{ font-family: courier new, courier, monospace; } 
+h3,p,code{margin-left:30px;}
+.run{background:#fffef5; border:solid #fdecc4 1px; padding:5px;}
+.footer{text-align:center; color: #666}
+</style>
+</head>
+<body>
+<h1>ns-template</h1>
+<h2>一、缘起</h2>
+<p>2010年大约5月份时，感受到DEDE标签主动调用数据理念适合CMS，所以开发了一些Smarty自定义修改器和自定义标签，但是在执行过程中性能低下，开销以s计，这是无法容忍的。分析跟踪，受自定义标签实现的原理限制不可能快。于是在dz模板的基础上加入了不少smarty语法以及自定义标签功能。经历了一年多线上运行和bug修复，并且弥补了DEDE标签多级嵌套问题后，在较稳定的情况下释出该版本。</p>
+<p><a href="http://www.pandaidea.com/opensource/ns-template/lastest.zip"><img src="download.png" align="absmiddle" />下载最新源码包</a> <br /><a href="http://www.pandaidea.com/opensource/ns-template/lastest.chm"><img src="download.png" align="absmiddle" />下载最新CHM手册</a></p>
+<h2>二、基本语法</h2>
+<h3>print var</h3>
+<code>变量{<span style="color: #0000BB">$var</span>}</code>
+<p class="run">{$var}</p>
+<code>数组{<span style="color: #0000BB">$arr.key</span>}</code>
+<p class="run">{$arr.key}</p>
+<h3>include</h3>
+<code>{<span style="color: #007700">include <span style="color: #DD0000">"inc/filename.htm"</span></span> /}</code>
+<p class="run">{include "inc/filename.htm"}</p>
+<h3>if/else</h3>
+<code>{<span style="color: #007700">if <span style="color: #0000BB">1</span><span style="color: #007700">+</span><span style="color: #0000BB">1</span><span style="color: #007700">==</span><span style="color: #0000BB">2</span></span>}1+1==2{<span style="color: #007700">else</span>}oh god{/<span style="color: #007700">if</span>}</code>
+<p class="run">{if 1+1==2}1+1==2{else}oh god{/if}</p>
+<h3>loop/loopelse</h3>
+<code>{<span style="color: #007700">loop <span style="color: #0000BB">$_GET $key $value</span></span>}{<span style="color: #0000BB">$key</span>}:{<span style="color: #0000BB">$value</span>}{<span style="color: #007700">loopelse</span>}变量是空的{/<span style="color: #007700">loop</span>}</code>
+<p class="run">{loop $_GET $key $value}{$key}:{$value}{loopelse}变量是空的{/loop}</p>
+<h3>php</h3>
+<code>{<span style="color: #0000BB">php&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"hello&nbsp;world!"</span><span style="color: #007700">;</span>
+</span>}</code>
+<p class="run">{php echo "hello world!"; }</p>
+<h3>注释</h3>
+<code>{<span style="color: #FF8000">*卑鄙是卑鄙者的通行证，高尚是高尚者的墓志铭*</span>}</code>
+<p class="run">{*卑鄙是卑鄙者的通行证，高尚是高尚者的墓志铭*}</p>
+<h2>三、扩展</h2>
+<h3>修改器</h3>
+<code>{<span style="color: #0000BB">$_GET</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}</code>
+<p class="run">{$_GET|var_dump}</p>
+<h3>数组修改器</h3>
+<code>{<span style="color: #0000BB">$_SERVER.REMOTE_ADDR</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}</code>
+<p class="run">{$_SERVER.REMOTE_ADDR|var_dump}</p>
+<h3>自定义修改器</h3>
+<code>{<span style="color: #0000BB">php&nbsp;</span><span style="color: #0000BB">$title</span><span style="color: #007700">=</span><span style="color: #DD0000">'标题太长不是病，长起来真要命……'</span><span style="color: #007700">;</span>} <br /> {<span style="color: #0000BB">$title</span><span style="color: #007700">|</span><span style="color: #0000BB">utruncate:<span style="color: #DD0000">4</span>:<span style="color: #DD0000">'……'</span></span>}</code>
+<p class="run">{php $title='标题太长不是病，长起来真要命……';} {$title|utruncate:4:'……'}</p>
+<h3>自定义标签</h3>
+<code>{<span style="color: #0000BB">ns:test</span>&nbsp;<span style="color: #0000BB">var</span><span style="color: #007700">=</span><span style="color: #DD0000">"支持属性"</span>}以及内容{/<span style="color: #0000BB">ns:test</span>}</code>
+<p class="run">{ns:test var="支持属性"}以及内容{/ns:test}</p>
+<code>{<span style="color: #0000BB">ns:now</span>&nbsp;/}</code>
+<p class="run">{ns:now /}</p> 
+<code>
+{<span style="color: #0000BB">ns:sql</span>&nbsp;<span style="color: #0000BB">sql</span><span style="color: #007700">=</span><span style="color: #DD0000">"SELECT 1 as first_field,2 as second_field,3 as third_field"</span>}
+SQL Result:{<span style="color: #0000BB">$field</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}
+{<span style="color: #0000BB">/ns:sql</span>}
+</code> 
+<p class="run">
+{ns:sql sql="SELECT 1 as first_field,2 as second_field,3 as third_field"}
+SQL Result:{$field|var_dump}
+{/ns:sql}
+</p>
+<h2>四、开发：订制你的ns-template</h2>
+<h3>原理</h3>
+<p>在第一次执行模板或者模板被修改后，会执行一次正则替换，把模板语言替换成PHP语言，（一般称之为编译），并缓存入文件。此后每次都直接include缓存后的文件，不再执行编译。</p>
+<h3>文件</h3>
+<p>文件中包含详尽的注释，如果你希望进一步改造，可以参考以下说明。</p>
+<p>ns-template.php 模板主类，提供用户操作的接口。如果要扩展模板方法，修改该文件即可</p>
+<p>ns_compiler.php 编译类，模板变成PHP文件的过程是在该类中进行的。如果想要实现自己的模板语法，修改该文件即可。</p>
+<p>ns_plugin.php 插件类，管理了插件的加载以及导出插件加载代码。标签和自定义修改器依赖该文件。</p>
+<p>ns_tag.php ns自定义标签的base类，提供了默认的调用方法以及dirty and quick的数据初始化。如果需要删除该文件，仅需自行实现方法即可。</p>
+<h2>五、安全建议</h2>
+<p>2011/12/9更新：修正缓存文件安全问题。此外建议对模版源码目录进行保护，禁止WEB访问。</p>
+<h2>六、FAQ</h2>
+<p>问：用了这么多正则替换，它快吗？ 答：1、实测替换一张常见的网页开销均在500ms以内，主要瓶颈都在磁盘和数据库；2、替换只有一次，第二次都是直接include替换后的PHP文件，这几乎和没有使用模板一样快。这也让wordpress这样的原生PHP模板没有多少优势。</p>
+<p>问：遇上问题如何寻求帮助 答：邮件至shiny@meettea.com 或 QQ：78154033</p>
+<p>问：哪些站点和客户使用了该模板引擎？ 答：在日ip1000的站点中使用了该模板引擎；在超过5个站点中使用了该模板引擎；在一个客户管理系统中使用了该模板引擎，约几十万营业额的客户通过该系统管理。</p>
+<p>问：会保持升级吗？ 答：以后本人推出的PHP程序均会采用该模板引擎，这意味着它将在未来三至五年内保持升级。</p>
+<p>问：和同类模板引擎相比，为什么要用ns-template？ 答：除了注重自定义后的性能外，后续我们还会提供一系列的修改器和自定义标签，也会提供相应交流平台，希望您能因此事半功倍。</p>
+<p>问：整个站点都是我做的/前端也会PHP，为什么不用原生PHP作为模板引擎？ 答：如果你不介意多敲点代码的话。</p>
+<p>问：模板里的数组，在哪里支持用“.”取代“[""]”？ 答：除了变量输出和修改器，其他均不支持。</p>
+<h2>七、开源协议</h2>
+<p>MIT License</p>
+<h2>八、At Last</h2>
+<p>做一款有思想的产品。</p>
+<div class="footer">&copy;2010 - 2012 微风实验室</div>
+</body>
+</html>

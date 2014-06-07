@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ns-template Examples</title>
+<style>
+body{
+    font: 11px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; color:#111; width:1000px; margin-left:30px;
+}
+code{ font-family: courier new, courier, monospace; } 
+h3,p,code{margin-left:30px;}
+.run{background:#fffef5; border:solid #fdecc4 1px; padding:5px;}
+.footer{text-align:center; color: #666}
+</style>
+</head>
+<body>
+<h1>NS-Template</h1>
+<p>NS-Template is a Open Source PHP Template aim at Call functions and Classes from template Wisely. </p>
+<p>Other Languages <a href="?lang=ZH-cn">[简体中文]</a></p>
+<p>
+<a href="https://sourceforge.net/p/nstemplate/wiki/Home/">Project Home</a> | <a href="https://sourceforge.net/projects/nstemplate/files/">Get latest version</a>
+<h2>Syntax</h2>
+<h3>print var</h3>
+<code>Variables{<span style="color: #0000BB">$var</span>}</code>
+<p class="run">{$var}</p>
+<code>Array{<span style="color: #0000BB">$arr.key</span>}</code>
+<p class="run">{$arr.key}</p>
+<h3>include</h3>
+<code>{<span style="color: #007700">include <span style="color: #DD0000">"inc/filename.htm"</span></span> /}</code>
+<p class="run">{include "inc/filename.htm"}</p>
+<h3>if/else</h3>
+<code>{<span style="color: #007700">if <span style="color: #0000BB">1</span><span style="color: #007700">+</span><span style="color: #0000BB">1</span><span style="color: #007700">==</span><span style="color: #0000BB">2</span></span>}1+1==2{<span style="color: #007700">else</span>}oh god{/<span style="color: #007700">if</span>}</code>
+<p class="run">{if 1+1==2}1+1==2{else}oh god{/if}</p>
+<h3>loop/loopelse</h3>
+<code>{<span style="color: #007700">loop <span style="color: #0000BB">$_GET $key $value</span></span>}{<span style="color: #0000BB">$key</span>}:{<span style="color: #0000BB">$value</span>}{<span style="color: #007700">loopelse</span>}Variable is Empty{/<span style="color: #007700">loop</span>}</code>
+<p class="run">{loop $_GET $key $value}{$key}:{$value}{loopelse}Variable is Empty{/loop}</p>
+<h3>php</h3>
+<code>{<span style="color: #0000BB">php&nbsp;</span><span style="color: #007700">echo&nbsp;</span><span style="color: #DD0000">"hello&nbsp;world!"</span><span style="color: #007700">;</span>
+</span>}</code>
+<p class="run">{php echo "hello world!"; }</p>
+<h3>Comments</h3>
+<code>{<span style="color: #FF8000">*卑鄙是卑鄙者的通行证，高尚是高尚者的墓志铭*</span>}</code>
+<p class="run">{*卑鄙是卑鄙者的通行证，高尚是高尚者的墓志铭*}</p>
+<h2>Extending NS-Template With Plugins</h2>
+<h3>Variable Modifiers </h3>
+<code>{<span style="color: #0000BB">$_GET</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}</code>
+<p class="run">{$_GET|var_dump}</p>
+<h3>Array Modifiers</h3>
+<code>{<span style="color: #0000BB">$_SERVER.REMOTE_ADDR</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}</code>
+<p class="run">{$_SERVER.REMOTE_ADDR|var_dump}</p>
+<h3>Custom Modifiers</h3>
+<code>{<span style="color: #0000BB">php&nbsp;</span><span style="color: #0000BB">$title</span><span style="color: #007700">=</span><span style="color: #DD0000">'标题太长不是病，长起来真要命……'</span><span style="color: #007700">;</span>} <br /> {<span style="color: #0000BB">$title</span><span style="color: #007700">|</span><span style="color: #0000BB">utruncate:<span style="color: #DD0000">20</span>:<span style="color: #DD0000">'……'</span></span>}</code>
+<p class="run">{php $title='UTF-8 TRUNCATE:标题太长不是病，长起来真要命……';} {$title|utruncate:20:'……'}</p>
+<h3>Custom Tags</h3>
+<code>{<span style="color: #0000BB">ns:test</span>&nbsp;<span style="color: #0000BB">var</span><span style="color: #007700">=</span><span style="color: #DD0000">"Value"</span>}Contents{/<span style="color: #0000BB">ns:test</span>}</code>
+<p class="run">{ns:test var="Value"}Contents{/ns:test}</p>
+<code>{<span style="color: #0000BB">ns:now</span>&nbsp;/}</code>
+<p class="run">{ns:now /}</p>
+<code>
+{<span style="color: #0000BB">ns:sql</span>&nbsp;<span style="color: #0000BB">sql</span><span style="color: #007700">=</span><span style="color: #DD0000">"SELECT 1 as first_field,2 as second_field,3 as third_field"</span>}
+SQL Result:{<span style="color: #0000BB">$field</span><span style="color: #007700">|</span><span style="color: #0000BB">var_dump</span>}
+{<span style="color: #0000BB">/ns:sql</span>}
+</code>
+<p class="run">
+{ns:sql sql="SELECT 1 as first_field,2 as second_field,3 as third_field"}
+SQL Result:{$field|var_dump}
+{/ns:sql}
+</p>
+<h2>Advanced:Custom Your Own Template</h2>
+<p>NS-Template will replace tpl into php code by Regular expressions,Called Compile. You can custom tags and funcs by your self.</p>
+<h2>Safety</h2>
+<p>2011/12/9 Fixed Cache File Bug. We Suggest Protect Your Template Directory.</p>
+<h2>Licence</h2>
+<p>MIT License</p>
+<h2>At Last</h2>
+<p>Make It Easier to Build a Site</p>
+<div class="footer">&copy;2010 - 2012<a href="http://dev.meettea.com">ShinyCat</a></div>
+</body>
+</html>
